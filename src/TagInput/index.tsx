@@ -53,46 +53,67 @@ const TagInput = ({
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const { selectionStart, selectionEnd } = e.currentTarget;
-
-    // Add tag on comma or Enter
-    if ((e.key === "," || e.key === "Enter") && inputValue.trim()) {
-      e.preventDefault();
-      const isValid = inputRef.current?.checkValidity();
-
-      if (isValid) {
-        addTag(inputValue.replace(",", ""));
-      } else {
-        inputRef.current?.reportValidity();
+    switch (e.key) {
+      case ",":
+      case "Enter": {
+        // Add tag on comma or Enter
+        e.preventDefault();
+        if (!inputValue.trim()) return;
+        const isValid = inputRef.current?.checkValidity();
+        if (isValid) {
+          addTag(inputValue.replace(",", ""));
+        } else {
+          inputRef.current?.reportValidity();
+        }
+        setHasError(!isValid);
+        break;
       }
-      setHasError(!isValid);
-    }
-    // Remove last tag if Backspace is pressed and input is empty
-    else if (e.key === "Backspace" && !inputValue && tags.length > 0) {
-      removeTag(tags.length - 1);
-    }
-    // If ArrowLeft is pressed when the cursor is on the left, focus last tag's delete button
-    else if (e.key === "ArrowLeft" && selectionStart === 0 && selectionEnd === 0 && tags.length > 0) {
-      tagButtonRefs.current[tags.length - 1]?.focus();
+
+      case "Backspace": {
+        // Only remove the last tag if inputValue is empty
+        if (!inputValue && tags.length > 0) {
+          removeTag(tags.length - 1);
+        }
+        break;
+      }
+
+      case "ArrowLeft": {
+        // If the cursor is at the start of the input, focus the last tag
+        const { selectionStart, selectionEnd } = e.currentTarget;
+        if (selectionStart === 0 && selectionEnd === 0 && tags.length > 0) {
+          tagButtonRefs.current[tags.length - 1]?.focus();
+        }
+        break;
+      }
     }
   };
 
   const handleDeleteButtonKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    if (e.key === "Backspace" || e.key === "Delete") {
-      removeTag(index);
-    } else if (e.key === "ArrowLeft") {
-      // Focus the previous tag’s delete button if it exists
-      if (index > 0) {
-        tagButtonRefs.current[index - 1]?.focus();
+    switch (e.key) {
+      case "Backspace":
+      case "Delete": {
+        removeTag(index);
+        break;
       }
-    } else if (e.key === "ArrowRight") {
-      // Focus the next tag’s delete button if it exists,
-      // otherwise (if on the last tag) focus the input
-      if (index < tags.length - 1) {
-        tagButtonRefs.current[index + 1]?.focus();
-      } else {
-        e.preventDefault();
-        inputRef.current?.focus();
+
+      case "ArrowLeft": {
+        // Focus the previous tag’s delete button if it exists
+        if (index > 0) {
+          tagButtonRefs.current[index - 1]?.focus();
+        }
+        break;
+      }
+
+      case "ArrowRight": {
+        // Focus the next tag’s delete button if it exists,
+        // otherwise (if on the last tag) focus the input
+        if (index < tags.length - 1) {
+          tagButtonRefs.current[index + 1]?.focus();
+        } else {
+          e.preventDefault();
+          inputRef.current?.focus();
+        }
+        break;
       }
     }
   };
