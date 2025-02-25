@@ -20,7 +20,14 @@ export const Basic = () => {
 
 // Disabled
 export const Disabled = () => {
-  return <TagInput initialTags={["Locked"]} onTagsChange={action("TagsChange")} className="input-medium" disabled />;
+  return (
+    <TagInput
+      initialTags={["Locked", "Can't touch this"]}
+      onTagsChange={action("TagsChange")}
+      className="input-medium"
+      disabled
+    />
+  );
 };
 
 // With some initial tags

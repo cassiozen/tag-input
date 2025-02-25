@@ -13,7 +13,7 @@
 }
 
 .tag {
-  background-color: #f3f3f3;
+  background-color: #eee;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   white-space: nowrap;
@@ -31,10 +31,14 @@
 
 .input {
   flex-grow: 1;
+  background: transparent;
   margin: 0.25rem 0.5rem;
   width: 0;
   min-width: 5ch;
   min-width: attr(data-minchars ch);
   border: none;
   outline: none;
+}
+.disabled {
+  background-color: #fafafa;
 }

@@ -1,5 +1,6 @@
-import classes from "./TagInput.module.css";
 import { useState, useRef, type ChangeEvent, type KeyboardEvent, type InputHTMLAttributes } from "react";
+import clsx from "clsx";
+import classes from "./TagInput.module.css";
 
 type TagInputProps = {
   initialTags?: string[];
@@ -81,7 +82,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
   return (
     <div
       role="list"
-      className={className ? `${className} ${classes.container}` : classes.container}
+      className={clsx(className, classes.container, disabled && classes.disabled)}
       onClick={handleContainerClick}
     >
       {tags.map((tag, index) => (
