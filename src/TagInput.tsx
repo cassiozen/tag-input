@@ -8,7 +8,7 @@ type TagInputProps = {
   disabled?: boolean;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "disabled">;
 
-const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagInputProps) => {
+const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...props }: TagInputProps) => {
   const [tags, setTags] = useState<string[]>(initialTags);
   const [inputValue, setInputValue] = useState("");
 
@@ -96,6 +96,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagIn
             onKeyDown={(e) => handleDeleteButtonKeyDown(e, index)}
             aria-label={`Remove ${tag}`}
             className={classes.tagRemove}
+            disabled={disabled}
           >
             ×
           </button>
@@ -110,6 +111,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagIn
         onKeyDown={handleInputKeyDown}
         className={classes.input}
         aria-label="Type a comma or enter to insert tag"
+        disabled={disabled}
         {...props}
       />
     </div>

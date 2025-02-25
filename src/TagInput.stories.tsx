@@ -11,20 +11,30 @@ export default meta;
 // Basic usage
 export const Basic = () => {
   return (
-    <div>
-      <TagInput onTagsChange={action("TagsChange")} className="input-medium" />
-    </div>
+    <>
+      <TagInput onTagsChange={action("TagsChange")} placeholder="Add tags..." className="input-medium" autoFocus />
+      <em>Use comma or enter to add new tag</em>
+    </>
   );
+};
+
+// Disabled
+export const Disabled = () => {
+  return <TagInput initialTags={["Locked"]} onTagsChange={action("TagsChange")} className="input-medium" disabled />;
 };
 
 // With some initial tags
 export const WithInitialTags = () => {
   return (
-    <TagInput
-      initialTags={["JavaScript", "TypeScript"]}
-      onTagsChange={action("TagsChange")}
-      placeholder="Add tags..."
-      className="input-medium"
-    />
+    <>
+      <TagInput
+        initialTags={["JavaScript", "TypeScript"]}
+        onTagsChange={action("TagsChange")}
+        placeholder="Add tags..."
+        className="input-medium"
+        autoFocus
+      />
+      <em>Use comma or enter to add new tag</em>
+    </>
   );
 };

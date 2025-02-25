@@ -27,11 +27,6 @@ select {
   font: inherit;
 }
 
-label {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
 p,
 h1,
 h2,
