@@ -1,13 +1,12 @@
 import classes from "./TagInput.module.css";
-import { useState, useRef, ChangeEvent, KeyboardEvent } from "react";
-import { type InputProps } from "./types";
+import { useState, useRef, type ChangeEvent, type KeyboardEvent, type InputHTMLAttributes } from "react";
 
 type TagInputProps = {
   initialTags?: string[];
   className?: string;
   onTagsChange?: (tags: string[]) => void;
   disabled?: boolean;
-} & Omit<InputProps, "disabled">;
+} & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "disabled">;
 
 const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagInputProps) => {
   const [tags, setTags] = useState<string[]>(initialTags);
