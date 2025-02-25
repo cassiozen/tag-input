@@ -8,7 +8,6 @@ type TagInputProps = {
   initialTags?: string[];
   className?: string;
   onTagsChange?: (tags: string[]) => void;
-  name?: string;
 };
 
 const TagInput = ({
@@ -50,7 +49,7 @@ const TagInput = ({
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    setHasError(!!inputRef.current?.checkValidity());
+    setHasError(!inputRef.current?.checkValidity());
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
