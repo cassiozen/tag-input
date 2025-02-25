@@ -1,6 +1,6 @@
 import { useState, useRef, type ChangeEvent, type KeyboardEvent, type InputHTMLAttributes } from "react";
 import clsx from "clsx";
-import classes from "./TagInput.module.css";
+import classes from "./styles.module.css";
 
 const noop = () => {};
 

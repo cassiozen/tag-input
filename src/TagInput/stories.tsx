@@ -1,12 +1,10 @@
-import { action } from "@ladle/react";
-import TagInput from "./TagInput";
-import "./main.css";
+import { action, type StoryDefault } from "@ladle/react";
+import TagInput from ".";
+import "../main.css";
 
-const meta = {
+export default {
   title: "TagInput",
-};
-
-export default meta;
+} satisfies StoryDefault;
 
 // Basic usage
 export const Basic = () => {
