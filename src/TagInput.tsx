@@ -2,6 +2,8 @@ import { useState, useRef, type ChangeEvent, type KeyboardEvent, type InputHTMLA
 import clsx from "clsx";
 import classes from "./TagInput.module.css";
 
+const noop = () => {};
+
 type TagInputProps = {
   initialTags?: string[];
   className?: string;
@@ -57,13 +59,14 @@ const TagInput = ({
     // Add tag on comma or Enter
     if ((e.key === "," || e.key === "Enter") && inputValue.trim()) {
       e.preventDefault();
-      const hasError = !inputRef.current?.checkValidity();
-      setHasError(hasError);
-      if (hasError) {
-        inputRef.current?.reportValidity();
-      } else {
+      const isValid = inputRef.current?.checkValidity();
+
+      if (isValid) {
         addTag(inputValue.replace(",", ""));
+      } else {
+        inputRef.current?.reportValidity();
       }
+      setHasError(!isValid);
     }
     // Remove last tag if Backspace is pressed and input is empty
     else if (e.key === "Backspace" && !inputValue && tags.length > 0) {
@@ -128,6 +131,7 @@ const TagInput = ({
           name={name}
           value={tags.join()}
           required={required}
+          onChange={noop} // React requires an onChange event handler for controlled components
           onFocus={() => inputRef.current?.focus()}
         />
       )}

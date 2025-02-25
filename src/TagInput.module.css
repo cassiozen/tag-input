@@ -14,6 +14,7 @@
 }
 
 .tag {
+  display: flex;
   background-color: #eee;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
@@ -39,7 +40,7 @@
   width: 0;
   min-width: 5ch;
   min-width: attr(data-minchars ch);
-  margin: 0 0.1rem;
+  margin: 0.25rem 0;
   border: none;
   outline: none;
 }
@@ -49,9 +50,9 @@
 
 .hidden {
   border: 0 !important;
-  clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+  clip: rect(1px, 1px, 1px, 1px) !important;
   -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important; /* 2 */
+  clip-path: inset(50%) !important;
   height: 1px !important;
   margin: -1px !important;
   overflow: hidden !important;
