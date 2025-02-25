@@ -142,16 +142,21 @@ const TagInput = ({
           </button>
         </span>
       ))}
+      {/*
+       * Having a `name` prop implies that this is being used within a form
+       * in which case we create a hidden text field to contain the actual
+       * tags as a string for submission
+       */}
       {name && (
         <input
           type="text"
           aria-hidden
           className={classes.hidden}
-          tabIndex={-1}
           name={name}
           value={tags.join()}
           required={required}
           onChange={noop} // React requires an onChange event handler for controlled components
+          tabIndex={-1} // Not focusable
           onFocus={() => inputRef.current?.focus()}
         />
       )}
