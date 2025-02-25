@@ -50,6 +50,10 @@ h6 {
   text-wrap: balance;
 }
 
+label {
+  display: block;
+}
+
 .input-medium {
   width: 500px;
 }

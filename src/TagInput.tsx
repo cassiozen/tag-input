@@ -6,12 +6,21 @@ type TagInputProps = {
   initialTags?: string[];
   className?: string;
   onTagsChange?: (tags: string[]) => void;
-  disabled?: boolean;
-} & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "disabled">;
+  name?: string;
+};
 
-const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...props }: TagInputProps) => {
-  const [tags, setTags] = useState<string[]>(initialTags);
+const TagInput = ({
+  initialTags = [],
+  className,
+  onTagsChange,
+  name,
+  required,
+  disabled,
+  ...props
+}: TagInputProps & Omit<InputHTMLAttributes<HTMLInputElement>, keyof TagInputProps>) => {
   const [inputValue, setInputValue] = useState("");
+  const [tags, setTags] = useState<string[]>(initialTags);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const tagButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -39,6 +48,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setHasError(!!inputRef.current?.checkValidity());
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -47,7 +57,13 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
     // Add tag on comma or Enter
     if ((e.key === "," || e.key === "Enter") && inputValue.trim()) {
       e.preventDefault();
-      addTag(inputValue.replace(",", ""));
+      const hasError = !inputRef.current?.checkValidity();
+      setHasError(hasError);
+      if (hasError) {
+        inputRef.current?.reportValidity();
+      } else {
+        addTag(inputValue.replace(",", ""));
+      }
     }
     // Remove last tag if Backspace is pressed and input is empty
     else if (e.key === "Backspace" && !inputValue && tags.length > 0) {
@@ -82,7 +98,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
   return (
     <div
       role="list"
-      className={clsx(className, classes.container, disabled && classes.disabled)}
+      className={clsx(className, classes.container, disabled && classes.disabled, hasError && "has-error")}
       onClick={handleContainerClick}
     >
       {tags.map((tag, index) => (
@@ -103,6 +119,18 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
           </button>
         </span>
       ))}
+      {name && (
+        <input
+          type="text"
+          aria-hidden
+          className={classes.hidden}
+          tabIndex={-1}
+          name={name}
+          value={tags.join()}
+          required={required}
+          onFocus={() => inputRef.current?.focus()}
+        />
+      )}
 
       <input
         ref={inputRef}
@@ -112,8 +140,8 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
         onKeyDown={handleInputKeyDown}
         className={classes.input}
         aria-label="Type a comma or enter to insert tag"
-        disabled={disabled}
         data-minchars={Math.max(inputValue.length, props.placeholder?.length ?? 0) ?? 5}
+        disabled={disabled}
         {...props}
       />
     </div>
