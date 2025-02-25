@@ -33,7 +33,8 @@
   flex-grow: 1;
   margin: 0.25rem 0.5rem;
   width: 0;
-  min-width: 2rem;
+  min-width: 5ch;
+  min-width: attr(data-minchars ch);
   border: none;
   outline: none;
 }

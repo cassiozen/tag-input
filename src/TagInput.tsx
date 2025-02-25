@@ -112,6 +112,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, disabled, ...prop
         className={classes.input}
         aria-label="Type a comma or enter to insert tag"
         disabled={disabled}
+        data-minchars={Math.max(inputValue.length, props.placeholder?.length ?? 0) ?? 5}
         {...props}
       />
     </div>
