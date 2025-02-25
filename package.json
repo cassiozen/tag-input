@@ -12,7 +12,7 @@
   },
   "types": "dist/types/src/lib.d.ts",
   "scripts": {
-    "dev": "vite",
+    "dev": "ladle serve",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -31,6 +31,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "@ladle/react": "^5.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "~5.7.2",

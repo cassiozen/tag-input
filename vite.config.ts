@@ -8,11 +8,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react()],
 
-  // We'll serve `index-dev.html` for dev mode:
-  server: {
-    open: "/index-dev.html",
-  },
-
   build: {
     lib: {
       entry: resolve(__dirname, "lib/main.tsx"),
