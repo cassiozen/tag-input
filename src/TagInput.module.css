@@ -18,6 +18,9 @@
   border-radius: 0.25rem;
   white-space: nowrap;
 }
+.tag:focus-within {
+  background-color: #ddd;
+}
 .tagRemove {
   background: #dcdcdc;
   font-size: 0.875rem;

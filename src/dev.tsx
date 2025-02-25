@@ -6,7 +6,7 @@ import "./dev.css";
 const rootElement = document.getElementById("root")!;
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <TagInput className="taginput" placeholder="Add" autoFocus />
+    <TagInput className="taginput" autoFocus />
     <em>Use comma or enter to add new tag</em>
   </React.StrictMode>
 );

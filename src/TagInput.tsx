@@ -14,6 +14,7 @@ const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagIn
   const [inputValue, setInputValue] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const tagButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const addTag = (value: string) => {
     const trimmedValue = value.trim();
@@ -32,12 +33,18 @@ const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagIn
     inputRef.current?.focus();
   };
 
+  const handleContainerClick = () => {
+    inputRef.current?.focus();
+  };
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    // Add tag on comma, Enter, or Tab (if there's text)
+    const { selectionStart, selectionEnd } = e.currentTarget;
+
+    // Add tag on comma or Enter
     if ((e.key === "," || e.key === "Enter") && inputValue.trim()) {
       e.preventDefault();
       addTag(inputValue.replace(",", ""));
@@ -46,21 +53,48 @@ const TagInput = ({ initialTags = [], className, onTagsChange, ...props }: TagIn
     else if (e.key === "Backspace" && !inputValue && tags.length > 0) {
       removeTag(tags.length - 1);
     }
+    // If ArrowLeft is pressed when the cursor is on the left, focus last tag's delete button
+    else if (e.key === "ArrowLeft" && selectionStart === 0 && selectionEnd === 0 && tags.length > 0) {
+      tagButtonRefs.current[tags.length - 1]?.focus();
+    }
+  };
+
+  const handleDeleteButtonKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (e.key === "Backspace" || e.key === "Delete") {
+      removeTag(index);
+    } else if (e.key === "ArrowLeft") {
+      // Focus the previous tag’s delete button if it exists
+      if (index > 0) {
+        tagButtonRefs.current[index - 1]?.focus();
+      }
+    } else if (e.key === "ArrowRight") {
+      // Focus the next tag’s delete button if it exists,
+      // otherwise (if on the last tag) focus the input
+      if (index < tags.length - 1) {
+        tagButtonRefs.current[index + 1]?.focus();
+      } else {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
   };
 
   return (
-    <div role="list" className={className ? `${className} ${classes.container}` : classes.container}>
+    <div
+      role="list"
+      className={className ? `${className} ${classes.container}` : classes.container}
+      onClick={handleContainerClick}
+    >
       {tags.map((tag, index) => (
-        <span
-          key={`${tag}-${index}`}
-          role="listitem"
-          className={classes.tag}
-          aria-label={`${tag}, tag ${index + 1} of ${tags.length}`}
-        >
+        <span key={`${tag}-${index}`} role="listitem" className={classes.tag} aria-label={tag}>
           {tag}
           <button
             type="button"
+            ref={(el) => {
+              tagButtonRefs.current[index] = el;
+            }}
             onClick={() => removeTag(index)}
+            onKeyDown={(e) => handleDeleteButtonKeyDown(e, index)}
             aria-label={`Remove ${tag}`}
             className={classes.tagRemove}
           >
