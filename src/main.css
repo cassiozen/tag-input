@@ -27,6 +27,11 @@ select {
   font: inherit;
 }
 
+label {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
 p,
 h1,
 h2,
@@ -48,4 +53,8 @@ h4,
 h5,
 h6 {
   text-wrap: balance;
+}
+
+.input-medium {
+  width: 500px;
 }
