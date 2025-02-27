@@ -10,7 +10,12 @@ export default {
 export const Basic = () => {
   return (
     <>
-      <TagInput onTagsChange={action("TagsChange")} placeholder="Add tags..." className="input-medium" autoFocus />
+      <TagInput
+        onTagsChange={action("TagsChange")}
+        placeholder="Add tags..."
+        className="input-medium custom-tag"
+        autoFocus
+      />
       <em>Use comma or enter to add new tag</em>
     </>
   );
@@ -52,13 +57,14 @@ export const WithForm = () => {
           action("Submit")(formData);
         }}
       >
-        <label htmlFor="domains">Tags:</label>
-        <TagInput name="tags" className="input-medium" placeholder="Add tags..." required />
+        <label htmlFor="tags">Tags:</label>
+        <TagInput name="tags" id="tags" className="input-medium" placeholder="Add tags..." required />
         <br />
 
         <label htmlFor="domains">E-mail domains:</label>
         <TagInput
           name="domains"
+          id="domains"
           className="input-medium"
           pattern="@[a-z0-9.\-]+\.[a-z]{2,}$"
           title="E-mail domain, like “@example.com”"

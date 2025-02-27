@@ -4,9 +4,8 @@ import classes from "./styles.module.css";
 
 const noop = () => {};
 
-type TagInputProps = {
+export type TagInputProps = {
   initialTags?: string[];
-  className?: string;
   onTagsChange?: (tags: string[]) => void;
 };
 
