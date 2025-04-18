@@ -5,11 +5,11 @@ A lightweight, accessible design system providing reusable UI components. Curren
 ## Installation
 
 ```bash
-npm install tagcomponent
+pnpm install tagcomponent
+# or
+npm add tagcomponent
 # or
 yarn add tagcomponent
-# or
-pnpm add tagcomponent
 ```
 
 
